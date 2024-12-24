@@ -17,17 +17,28 @@ func SumNumbers3[K comparable, V Number](m map[K]V) V {
 	return value
 }
 
+// struct generic
+type userModel[N Number] struct {
+	name  string
+	score N
+}
+
+func (um *userModel[N]) SetName(name string) {
+	um.name = name
+}
+
+func (um *userModel[N]) SetScore(score N) {
+	um.score = score
+}
+
 func main() {
-	ints := map[string]int64{"first": 34, "second": 12}
-	floats := map[string]float64{"first": 35.98, "second": 26.99}
+	var m1 userModel[float64]
+	m1.SetName("fani alfirdaus")
+	m1.SetScore(12.2)
+	fmt.Printf("%#v\n", m1)
 
-	fmt.Printf("Generic Sums with Constraint : %v and %v\n",
-		SumNumbers2(ints),
-		SumNumbers2(floats),
-	)
-
-	intJuga := map[int]int64{1: 34, 2: 12}
-	fmt.Printf("Generic Sums with Constraint comparable : %d\n", SumNumbers2(intJuga))
+	m2 := userModel[int64]{name: "fanialfi", score: 99}
+	fmt.Printf("%#v\n", m2)
 }
 
 // menggunakan keyword comparable
