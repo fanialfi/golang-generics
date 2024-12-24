@@ -2,6 +2,21 @@ package main
 
 import "fmt"
 
+// generic type constraint
+type Number interface {
+	int64 | float64
+}
+
+func SumNumbers3[K comparable, V Number](m map[K]V) V {
+	var value V
+
+	for _, val := range m {
+		value += val
+	}
+
+	return value
+}
+
 func main() {
 	ints := map[string]int64{"first": 34, "second": 12}
 	floats := map[string]float64{"first": 35.98, "second": 26.99}
