@@ -2,35 +2,40 @@ package main
 
 import "fmt"
 
-// disebut type constraint
-type number interface {
-	int | float32 | float64
-}
-
 func main() {
-	total1 := Sum([]int{1, 2, 3, 4, 5})
-	fmt.Println("total :", total1)
+	ints := map[string]int64{"first": 34, "second": 12}
+	floats := map[string]float64{"first": 35.98, "second": 26.99}
 
-	total2 := Sum([]float32{1.1, 2.2, 3.3, 4.4, 5.5})
-	fmt.Println("total :", total2)
+	fmt.Printf("Generic Sums with Constraint : %v and %v\n",
+		SumNumbers2(ints),
+		SumNumbers2(floats),
+	)
 
-	total3 := Sum([]float64{11.11, 22.22, 33.33, 44.44, 55.55})
-	fmt.Println("total :", total3)
-
-	sumInt := Sum[int]
-	total4 := sumInt([]int{1, 2, 3, 4, 4, 4, 4, 4, 4, 4})
-	fmt.Println("total :", total4)
+	intJuga := map[int]int64{1: 34, 2: 12}
+	fmt.Printf("Generic Sums with Constraint comparable : %d\n", SumNumbers2(intJuga))
 }
 
-// notasi penulisan function dengan generic kurang lebih seperti ini
-// func FunctionName[dataType <ComparableType>](params)
+// menggunakan keyword comparable
+// jika menggunakan keyword comparable maka bisa support semua tipe data,
+// tapi tidak untuk slice, map, dan function
 
-func Sum[V number](numbers []V) V {
-	var total V
+// non Generics
+func SumNumbers1(m map[string]int64) int64 {
+	var s int64
 
-	for _, val := range numbers {
-		total += val
+	for _, value := range m {
+		s += value
 	}
 
-	return total
+	return s
+}
+
+func SumNumbers2[K comparable, V int64 | float64](m map[K]V) V {
+	var s V
+
+	for _, value := range m {
+		s += value
+	}
+
+	return s
 }
